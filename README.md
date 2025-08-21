@@ -1,2 +1,2 @@
-# LDAP-DAII-G3
+# LDAP-DAII-G3 BACKEND
 CityPass+ LDAP module
