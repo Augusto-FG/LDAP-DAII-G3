@@ -5,9 +5,9 @@ services:
     image: osixia/openldap:1.5.0
     container_name: openldap
     environment:
-      - LDAP_ORGANISATION=LDAP G3
-      - LDAP_DOMAIN=ldap.com
-      - LDAP_ADMIN_PASSWORD=12wsa324rwefdgv
+      - LDAP_ORGANISATION=${LDAP_ORGANISATION}
+      - LDAP_DOMAIN=${LDAP_DOMAIN}
+      - LDAP_ADMIN_PASSWORD=${LDAP_ADMIN_PASSWORD}
       - LDAP_TLS=false  # Disable TLS to avoid connection issues
     ports:
       - "389:389"
