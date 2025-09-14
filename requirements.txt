@@ -1,0 +1,13 @@
+fastapi
+uvicorn
+motor
+pymongo
+ldap3
+aio-pika
+pydantic-settings
+jose
+python-jwt
+structlog
+pytest
+pytest-asyncio
+pydantic[email]
