@@ -10,6 +10,7 @@ async def get_ldap_port_instance():
         from app.controllers.OpenLDAP.openldap_controller import OpenLDAPController
         from app.ports.outbound.ldap_port import LDAPPort
         ldap_controller = OpenLDAPController()
+        logger.info("Creating new LDAPPort instance with OpenLDAPController.", controller=ldap_controller)
         ldap_port_instance = LDAPPort(ldap_controller)
-        logger.info("LDAPPort singleton instance created.")
-    return ldap_port_instance
+        logger.info("LDAPPort singleton instance created.", instance=ldap_port_instance)
+    return ldap_port_instance#

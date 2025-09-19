@@ -13,20 +13,34 @@ def add_relative_path(logger, method_name, event_dict):
         event_dict["pathname"] = relative_path(event_dict["pathname"])
     return event_dict
 
+def filter_by_log_level_factory(min_level):
+    min_level = min_level.upper()
+    levels = {"CRITICAL": 50, "ERROR": 40, "WARNING": 30, "INFO": 20, "DEBUG": 10}
+    min_level_num = levels.get(min_level, 20)
+    def processor(logger, method_name, event_dict):
+        event_level = event_dict.get("level", "").upper()
+        if levels.get(event_level, 0) < min_level_num:
+            raise structlog.DropEvent
+        return event_dict
+    return processor
+
 def configure_logging():
-    logging.basicConfig(stream=sys.stdout, level=getattr(logging, settings.LOG_LEVEL, logging.INFO))
+    log_level = settings.LOG_LEVEL if hasattr(settings, "LOG_LEVEL") else "INFO"
+    numeric_level = getattr(logging, log_level, logging.INFO)
+    logging.basicConfig(stream=sys.stdout, level=numeric_level)
     structlog.configure(
         processors=[
             structlog.processors.TimeStamper(fmt="iso"),
-            structlog.processors.add_log_level,  # Adds log level
+            structlog.processors.add_log_level,
             structlog.processors.CallsiteParameterAdder([
                 structlog.processors.CallsiteParameter.FUNC_NAME,
-                structlog.processors.CallsiteParameter.PATHNAME,   # Adds file path
-                structlog.processors.CallsiteParameter.LINENO,     # Adds line number
-                structlog.processors.CallsiteParameter.MODULE,     # Adds module name
+                structlog.processors.CallsiteParameter.PATHNAME,
+                structlog.processors.CallsiteParameter.LINENO,
+                structlog.processors.CallsiteParameter.MODULE,
             ]),
-            add_relative_path,  # Convert full path to relative
-            structlog.dev.ConsoleRenderer(),
+            add_relative_path,
+            filter_by_log_level_factory(log_level),  # <-- This line enforces the level
+            structlog.dev.ConsoleRenderer()
         ]
     )
     

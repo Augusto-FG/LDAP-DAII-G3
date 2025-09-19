@@ -2,6 +2,14 @@ from fastapi import APIRouter, HTTPException, status, Depends
 from pydantic import BaseModel
 from app.config.settings import settings
 from app.controllers.OpenLDAP.openldap_controller import OpenLDAPController
+from app.domain.entities.token import Token
+from app.domain.entities.client_credentials import ClientCredentials
+from app.domain.services.user_service import UserService
+from app.config.ldap_singleton import get_ldap_port_instance
+from app.domain.services.token_service import TokenService
+
+from datetime import datetime, timezone, timedelta
+now = datetime.now(timezone.utc)
 
 router = APIRouter(
     prefix="/auth",
@@ -21,6 +29,17 @@ async def login(request: LoginRequest):
         status_code=status.HTTP_401_UNAUTHORIZED,
         detail="Invalid credentials"
     )
+    
+@router.post("/token")
+async def token(request: ClientCredentials):
+    # Dummy token generation logic, replace with real token generation
+    token_service = TokenService(UserService(await get_ldap_port_instance()))
+    token = token_service.generate_token(request)
+    return token.to_jwt()
+    # raise HTTPException(
+    #     status_code=status.HTTP_401_UNAUTHORIZED,
+    #     detail="Invalid client credentials"
+    # )
     
 @router.get("/test")
 async def test_endpoint():
