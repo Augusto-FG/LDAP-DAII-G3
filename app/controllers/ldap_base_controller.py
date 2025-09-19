@@ -10,9 +10,9 @@ class LDAPBaseController(ABC):
         pass
 
     @abstractmethod
-    def search(self, base_dn: str, search_filter: str):
+    def search(self, base_dn: str, search_filter: str, scope: str):
         pass
-
+    
     @abstractmethod
     def add_entry(self, dn: str, attributes: dict):
         pass

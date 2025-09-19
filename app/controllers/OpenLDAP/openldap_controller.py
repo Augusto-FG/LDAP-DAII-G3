@@ -28,6 +28,7 @@ class OpenLDAPController(LDAPBaseController):
         logger.debug("LDAP connection closed.")
 
     def search(self, search_base='', search_filter='', scope='BASE'):
+        logger.debug("Searching LDAP controller:", search_base=search_base, search_filter=search_filter, scope=scope)
         self.conn.search(search_base=search_base, search_filter=search_filter, search_scope=scope, attributes=['*'])
         return self.conn.entries, self.conn.result
 

@@ -10,6 +10,7 @@ class Settings(BaseSettings):
     LDAP_URL: str
     LDAP_BIND_DN: str
     LDAP_BIND_PASSWORD: str
+    SECRET_KEY: str
     model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(__file__), ".env"), extra="ignore")
         
 @lru_cache()

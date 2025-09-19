@@ -6,7 +6,7 @@ ldap3
 aio-pika
 pydantic-settings
 jose
-python-jwt
+pyjwt
 structlog
 pytest
 pytest-asyncio
