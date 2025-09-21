@@ -24,6 +24,15 @@ jobs:
         pip install -r requirements.txt
 
     - name: Run tests
+      env:
+        APP_NAME: ${{ secrets.APP_NAME }}
+        LOG_LEVEL: ${{ secrets.LOG_LEVEL }}
+        DATABASE_URL: ${{ secrets.DATABASE_URL }}
+        QUEUE_URL: ${{ secrets.QUEUE_URL }}
+        LDAP_URL: ${{ secrets.LDAP_URL }}
+        LDAP_BIND_DN: ${{ secrets.LDAP_BIND_DN }}
+        LDAP_BIND_PASSWORD: ${{ secrets.LDAP_BIND_PASSWORD }}
+        SECRET_KEY: ${{ secrets.SECRET_KEY }}
       run: |
         export PYTHONPATH=$PWD
         python -m pytest tests/ --maxfail=1 --disable-warnings -v
