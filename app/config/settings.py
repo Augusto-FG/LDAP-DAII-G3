@@ -1,6 +1,8 @@
-import os
+from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
+
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # raíz del proyecto
 
 class Settings(BaseSettings):
     APP_NAME: str
@@ -11,8 +13,12 @@ class Settings(BaseSettings):
     LDAP_BIND_DN: str
     LDAP_BIND_PASSWORD: str
     SECRET_KEY: str
-    model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(__file__), ".env"), extra="ignore")
-        
+
+    model_config = SettingsConfigDict(
+        env_file=BASE_DIR / ".env",  # busca .env en la raíz del proyecto
+        extra="ignore"
+    )
+
 @lru_cache()
 def get_settings():
     return Settings()
