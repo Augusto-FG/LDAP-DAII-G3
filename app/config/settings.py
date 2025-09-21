@@ -2,7 +2,7 @@ from pathlib import Path
 from pydantic_settings import BaseSettings, SettingsConfigDict
 from functools import lru_cache
 
-BASE_DIR = Path(__file__).resolve().parent.parent.parent  # va a la raíz del proyecto
+BASE_DIR = Path(__file__).resolve().parent.parent.parent  # raíz del proyecto
 
 class Settings(BaseSettings):
     APP_NAME: str
@@ -15,7 +15,7 @@ class Settings(BaseSettings):
     SECRET_KEY: str
 
     model_config = SettingsConfigDict(
-        env_file=BASE_DIR / ".env",  # ahora busca .env en la raíz del proyecto
+        env_file=BASE_DIR / ".env",  # busca .env en la raíz del proyecto
         extra="ignore"
     )
 
