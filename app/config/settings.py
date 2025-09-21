@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     LDAP_BIND_DN: str
     LDAP_BIND_PASSWORD: str
     SECRET_KEY: str
-    model_config = SettingsConfigDict(env_file=os.path.join(os.path.dirname(__file__), ".env"), extra="ignore")
+    model_config = SettingsConfigDict( env_file=os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), ".env"), extra="ignore")
         
 @lru_cache()
 def get_settings():
